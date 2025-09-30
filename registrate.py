@@ -26,14 +26,17 @@ def registrate():
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        usuario["nombre"] = st.text_input("Ingrese su nombre", key="nombre")
-        usuario["email"] = st.text_input("Ingrese su Email", key="Email")
-        usuario["contrasenia"] = st.text_input("Ingrese su contraseña", type="password", key="contrasenia")
+        with st.form("registro_form"):
+            usuario["nombre"] = st.text_input("Ingrese su nombre", key="nombre")
+            usuario["email"] = st.text_input("Ingrese su Email", key="Email")
+            usuario["contrasenia"] = st.text_input("Ingrese su contraseña", type="password", key="contrasenia")
+            submit_button = st.form_submit_button("Registrarme")
+
+    if submit_button:
 
         sub_col1, sub_col2 = st.columns([6, 4.5])
         with sub_col2:    
-            if st.button("registrarme", key="btn_registrar"):
-                st.session_state.esta_logueado = True
-                usuarios_json.append(usuario)
-                with open("usuarios.json", "w") as datos:
-                    json.dump(usuarios_json, datos)
+            st.session_state.esta_logueado = True
+            usuarios_json.append(usuario)
+            with open("usuarios.json", "w") as datos:
+                json.dump(usuarios_json, datos)
