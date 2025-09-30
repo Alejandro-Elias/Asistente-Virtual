@@ -37,6 +37,8 @@ def registrate():
         sub_col1, sub_col2 = st.columns([6, 4.5])
         with sub_col2:    
             st.session_state.esta_logueado = True
+            st.session_state.id = usuario["id"]
+            st.session_state.pantalla = "chat"
             usuarios_json.append(usuario)
             with open("usuarios.json", "w") as datos:
                 json.dump(usuarios_json, datos)
