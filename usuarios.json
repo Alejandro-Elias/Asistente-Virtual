@@ -1,1 +1,14 @@
-[{"id": 1, "nombre": "Alejandro", "email": "Alejandro@gmail.com", "contrasenia": "123123"}, {"id": 2, "nombre": "Mercedes", "email": "mercedes@gmail.com", "contrasenia": "321321"}, {"id": 3, "nombre": "Hugo", "email": "hugo@gmail.com", "contrasenia": "456456"}, {"id": 4, "nombre": "Pepe", "email": "pepe@gmail.com", "contrasenia": "789789"}, {"id": 5, "nombre": "cacho", "email": "cacho@gmail.com", "contrasenia": "131313"}, {"id": 6, "nombre": "celes", "email": "celes@gmail.com", "contrasenia": "252525"}]
+[
+  {
+    "id": 1,
+    "nombre": "Alejandro",
+    "email": "Alejandro@gmail.com",
+    "contrasenia": "123123"
+  },
+  {
+    "id": 2,
+    "nombre": "Mercedes",
+    "email": "mercedes@gmail.com",
+    "contrasenia": "321321"
+  }
+]

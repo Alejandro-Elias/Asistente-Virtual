@@ -12,7 +12,19 @@ def chat():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
+    with open("historia.json", "r") as datos:
+        historia_json = json.load(datos)
+
     nombre = ""
+
+    id = historia_json[-1]["id"] + 1 if len(historia_json) > 0 else 1
+    nuevo_chat = "chat " + str(id)
+
+    historia_json.append({
+            "id": id,
+            "title": nuevo_chat,
+            "historia": []}
+            )
 
     for user in usuarios_json:
         if user["id"] == st.session_state.id:
@@ -32,6 +44,14 @@ def chat():
             "consulta" : consulta,
             "respuesta" : respuesta
         })
+
+        historia_json[-1]["historia"].append({
+            "consulta" : consulta,
+            "respuesta" : respuesta
+        })
+
+        with open("historia.json", "w") as datos:
+            json.dump(historia_json, datos)
 
         for chat in st.session_state.chat_history:
             

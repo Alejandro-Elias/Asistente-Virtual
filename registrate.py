@@ -16,7 +16,7 @@ def registrate():
         st.session_state.contrasenia = ""
 
     usuario = {
-        "id": usuarios_json[len(usuarios_json) - 1]["id"] + 1,
+        "id": usuarios_json[-1]["id"] + 1,
         "nombre": "",
         "email": "",
         "contrasenia": ""

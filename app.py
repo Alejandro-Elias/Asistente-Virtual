@@ -45,6 +45,8 @@ if st.session_state.esta_logueado:
         st.session_state.chat_history = []
         st.session_state.pantalla = "chat"
 
+st.sidebar.markdown("---")
+
 mensaje_error = []
 
 if st.session_state.pantalla == "ingreso":
