@@ -2,6 +2,7 @@ import streamlit as st
 from ingresar import ingresar
 from registrate import registrate
 from chat import chat
+import json
 
 st.set_page_config(layout="wide")
 
@@ -14,7 +15,26 @@ if "es_usuario" not in st.session_state:
 if "esta_logueado" not in st.session_state:
     st.session_state.esta_logueado = False
 
+with open("historia.json", "r") as datos:
+    historia_json = json.load(datos)
+
 st.title("Asistente Virtual")
+
+if st.button("Guardar Chat"):
+    with open("historia.json", "w") as datos:
+
+        id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
+        nuevo_chat = "chat " + str(id)
+
+        historia_json.append(
+        {"user_id": st.session_state.id,
+        "chats": {
+            "id": id,
+            "title": "chat",
+            "historia": [st.session_state.chat_history]}
+            })
+
+        json.dump(historia_json, datos)        
 
 st.markdown("---")
 

@@ -1,3 +1,46 @@
 [
-    
+  {
+    "user_id": 1,
+    "chats": {
+      "id": 1,
+      "title": "chat",
+      "historia": [
+        [
+          {
+            "consulta": "hola",
+            "respuesta": "Estoy procesando tu pregunta..."
+          },
+          {
+            "consulta": "hola",
+            "respuesta": "Estoy procesando tu pregunta..."
+          },
+          {
+            "consulta": "hola",
+            "respuesta": "Estoy procesando tu pregunta..."
+          },
+          {
+            "consulta": "hola",
+            "respuesta": "Estoy procesando tu pregunta..."
+          },
+          { "consulta": "HOLA", "respuesta": "Estoy procesando tu pregunta..." }
+        ]
+      ]
+    }
+  },
+  {
+    "user_id": 1,
+    "chats": {
+      "id": 2,
+      "title": "chat",
+      "historia": [
+        [
+          {
+            "consulta": "HOLA ",
+            "respuesta": "Estoy procesando tu pregunta..."
+          },
+          { "consulta": "HOLA", "respuesta": "Estoy procesando tu pregunta..." }
+        ]
+      ]
+    }
+  }
 ]
