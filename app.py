@@ -41,6 +41,7 @@ if st.session_state.esta_logueado:
         st.session_state.contrasenia = ""
         
     if st.sidebar.button("Nuevo Chat"):
+        st.session_state.chat_history = []
         st.session_state.pantalla = "chat"
 
 mensaje_error = []
