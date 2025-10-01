@@ -63,4 +63,5 @@ def ingresar():
                     if contador_email > 0 and contador_contrasenia > 0:
                         st.session_state.pantalla = "chat"
                         st.success("Bienvenido") 
+                        st.rerun()
 
