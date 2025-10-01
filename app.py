@@ -39,6 +39,7 @@ if st.session_state.esta_logueado:
         st.session_state.id = 0
         st.session_state.email_ingreso = ""
         st.session_state.contrasenia = ""
+        st.rerun()
         
     if st.sidebar.button("Nuevo Chat"):
         st.session_state.chat_history = []
