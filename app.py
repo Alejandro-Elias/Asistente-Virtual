@@ -40,19 +40,12 @@ if st.session_state.esta_logueado:
 chats_usuario = []
 nombres_chat = ["-- Selecciona una opción --"] 
 
-st.markdown("---")
-
-st.sidebar.title("Menú")
-
-if st.sidebar.button("Ingresar"):
-    st.session_state.pantalla = "ingreso"
-
-if st.sidebar.button("Registrarse"):
-    st.session_state.pantalla = "registro"
-
 
 if st.session_state.esta_logueado:
-
+        
+    if st.sidebar.button("Nuevo Chat"):
+        st.session_state.chat_history = []
+        st.session_state.pantalla = "chat"
 
     if st.sidebar.button("Salir"):
         st.session_state.clear()
@@ -65,11 +58,6 @@ if st.session_state.esta_logueado:
         st.session_state.contrasenia = ""
         st.rerun()
         
-    if st.sidebar.button("Nuevo Chat"):
-        st.session_state.chat_history = []
-        st.session_state.pantalla = "chat"
-
-        
     for i, chat in enumerate(historia_json):
 
         if chat["user_id"] == st.session_state.id:
@@ -78,10 +66,21 @@ if st.session_state.esta_logueado:
 
     chat_seleccionado = st.sidebar.selectbox("Selecciona un chat", nombres_chat, key="chat_seleccionado")
 
+else:
+
+    st.markdown("---")
+
+    st.sidebar.title("Menú")
+
+    if st.sidebar.button("Ingresar"):
+        st.session_state.pantalla = "ingreso"
+
+    if st.sidebar.button("Registrarse"):
+        st.session_state.pantalla = "registro"
+
+    st.sidebar.markdown("---")
     #if chat_seleccionado != "-- Selecciona una opción --":
     #    st.session_state.chat_history = chats_usuario
-
-st.sidebar.markdown("---")
 
 mensaje_error = []
 
