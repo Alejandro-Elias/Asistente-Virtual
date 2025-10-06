@@ -15,6 +15,12 @@ if "es_usuario" not in st.session_state:
 if "esta_logueado" not in st.session_state:
     st.session_state.esta_logueado = False
 
+if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+if "chat_history_actual" not in st.session_state:
+    st.session_state.chat_history_actual = []
+
 with open("historia.json", "r") as datos:
     historia_json = json.load(datos)
 
@@ -32,14 +38,15 @@ if st.session_state.esta_logueado:
             "chats": {
                 "id": id,
                 "title": "chat",
-                "historia": [st.session_state.chat_history]}
+                "historia": st.session_state.chat_history}
                 })       
 
             json.dump(historia_json, datos)        
 
-chats_usuario = []
+chats_usuario = {}
 nombres_chat = ["-- Selecciona una opción --"] 
 
+st.markdown("---")
 
 if st.session_state.esta_logueado:
         
@@ -57,18 +64,30 @@ if st.session_state.esta_logueado:
         st.session_state.email_ingreso = ""
         st.session_state.contrasenia = ""
         st.rerun()
-        
-    for i, chat in enumerate(historia_json):
 
-        if chat["user_id"] == st.session_state.id:
-            chats_usuario.append(chat["chats"]["historia"])
-            nombres_chat.append(chat["chats"]["title"] + str(chat["chats"]["id"]))
+    st.sidebar.markdown("---")
+        
+    for i, chat_historia in enumerate(historia_json):
+
+        if chat_historia["user_id"] == st.session_state.id:
+            nombre = chat_historia["chats"]["title"] + str(chat_historia["chats"]["id"])
+            nombres_chat.append(nombre)
+            chats_usuario[nombre] = chat_historia["chats"]["historia"]
 
     chat_seleccionado = st.sidebar.selectbox("Selecciona un chat", nombres_chat, key="chat_seleccionado")
 
-else:
+    
 
-    st.markdown("---")
+    print(chat_seleccionado)
+    if chat_seleccionado != "-- Selecciona una opción --":
+        st.session_state.chat_history = chats_usuario[chat_seleccionado]
+        print(st.session_state.chat_history)
+        print(chats_usuario[chat_seleccionado])
+        st.session_state.pantalla = "chat"
+    else:
+        st.session_state.chat_history = st.session_state.chat_history_actual
+
+else:
 
     st.sidebar.title("Menú")
 

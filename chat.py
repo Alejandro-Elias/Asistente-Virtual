@@ -9,9 +9,6 @@ def chat():
     if "id" not in st.session_state:
         st.session_state.id = 0
 
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
-
     with open("historia.json", "r") as datos:
         historia_json = json.load(datos)
 
@@ -31,22 +28,24 @@ def chat():
 
     if consulta:
 
-        st.session_state.chat_history.append({
+        st.session_state.chat_history_actual.append({
             "consulta" : consulta,
             "respuesta" : respuesta
         })
 
-        for chat in st.session_state.chat_history:
+    for chat in st.session_state.chat_history:
             
 
-            col1, col2, col3 = st.columns([40, 55, 5])
+        col1, col2, col3 = st.columns([40, 55, 5])
 
-            with col2:
-                with st.chat_message("user"):
-                    st.write(chat["consulta"])
+        with col2:
+            with st.chat_message("user"):
+                st.write(chat["consulta"])
 
-            col1, col2, col3 = st.columns([5, 90, 5])
+        col1, col2, col3 = st.columns([5, 90, 5])
 
-            with col2:
-                with st.chat_message("assistant"):
-                    st.write(chat["respuesta"])
+        with col2:
+            with st.chat_message("assistant"):
+                st.write(chat["respuesta"])
+
+    print(st.session_state.chat_history)
