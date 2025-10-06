@@ -20,22 +20,22 @@ with open("historia.json", "r") as datos:
 
 st.title("Asistente Virtual")
 
+if st.session_state.esta_logueado:
+    if st.button("Guardar Chat"):
+        with open("historia.json", "w") as datos:
 
-if st.button("Guardar Chat"):
-    with open("historia.json", "w") as datos:
+            id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
+            nuevo_chat = "chat " + str(id)
 
-        id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
-        nuevo_chat = "chat " + str(id)
+            historia_json.append(
+            {"user_id": st.session_state.id,
+            "chats": {
+                "id": id,
+                "title": "chat",
+                "historia": [st.session_state.chat_history]}
+                })       
 
-        historia_json.append(
-        {"user_id": st.session_state.id,
-        "chats": {
-            "id": id,
-            "title": "chat",
-            "historia": [st.session_state.chat_history]}
-            })       
-
-        json.dump(historia_json, datos)        
+            json.dump(historia_json, datos)        
 
 chats_usuario = []
 nombres_chat = ["-- Selecciona una opción --"] 
