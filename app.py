@@ -20,6 +20,7 @@ with open("historia.json", "r") as datos:
 
 st.title("Asistente Virtual")
 
+
 if st.button("Guardar Chat"):
     with open("historia.json", "w") as datos:
 
@@ -32,9 +33,12 @@ if st.button("Guardar Chat"):
             "id": id,
             "title": "chat",
             "historia": [st.session_state.chat_history]}
-            })
+            })       
 
         json.dump(historia_json, datos)        
+
+chats_usuario = []
+nombres_chat = ["-- Selecciona una opción --"] 
 
 st.markdown("---")
 
@@ -64,6 +68,18 @@ if st.session_state.esta_logueado:
     if st.sidebar.button("Nuevo Chat"):
         st.session_state.chat_history = []
         st.session_state.pantalla = "chat"
+
+        
+    for i, chat in enumerate(historia_json):
+
+        if chat["user_id"] == st.session_state.id:
+            chats_usuario.append(chat["chats"]["historia"])
+            nombres_chat.append(chat["chats"]["title"] + str(chat["chats"]["id"]))
+
+    chat_seleccionado = st.sidebar.selectbox("Selecciona un chat", nombres_chat, key="chat_seleccionado")
+
+    #if chat_seleccionado != "-- Selecciona una opción --":
+    #    st.session_state.chat_history = chats_usuario
 
 st.sidebar.markdown("---")
 

@@ -1,14 +1,1 @@
-[
-  {
-    "id": 1,
-    "nombre": "Alejandro",
-    "email": "Alejandro@gmail.com",
-    "contrasenia": "123123"
-  },
-  {
-    "id": 2,
-    "nombre": "Mercedes",
-    "email": "mercedes@gmail.com",
-    "contrasenia": "321321"
-  }
-]
+[{"id": 1, "nombre": "Alejandro", "email": "Alejandro@gmail.com", "contrasenia": "123123"}, {"id": 2, "nombre": "Mercedes", "email": "mercedes@gmail.com", "contrasenia": "321321"}, {"id": 3, "nombre": "juan", "email": "juan@gmail.com", "contrasenia": "232323"}]
