@@ -3,15 +3,28 @@ import json
 
 
 def chat():
-    with open("usuarios.json", "r") as datos:
-        usuarios_json = json.load(datos)
+    try:
+        with open("usuarios.json", "r") as datos:
+            usuarios_json = json.load(datos)
+    except FileNotFoundError:
+        print("No se encontro el archivo de usuarios")
+    except json.JSONDecodeError:
+        print("El archivo no es valido o esta corrupto")
+    except  Exception as e:
+        print(f"Error al leer el archivo de usuarios: {e.args[0]}")    
+
+    try:
+        with open("historia.json", "r") as datos:
+            historia_json = json.load(datos)
+    except FileNotFoundError:
+        print("No se encontro el archivo de historias del chat")
+    except json.JSONDecodeError:
+        print("El archivo no es valido o esta corrupto")
+    except  Exception as e:
+        print(f"Error al leer el archivo de historias del chat: {e.args[0]}")    
 
     if "id" not in st.session_state:
         st.session_state.id = 0
-
-    with open("historia.json", "r") as datos:
-        historia_json = json.load(datos)
-
     nombre = ""
 
     for user in usuarios_json:
