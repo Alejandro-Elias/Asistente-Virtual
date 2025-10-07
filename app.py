@@ -4,7 +4,12 @@ from registrate import registrate
 from chat import chat
 import json
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    page_title="Asistente Virtual",  
+    page_icon="🤖",             
+    layout="wide",              
+    initial_sidebar_state="expanded"  
+)
 
 if "pantalla" not in st.session_state:
     st.session_state.pantalla = "ingreso"
@@ -21,30 +26,44 @@ if "chat_history" not in st.session_state:
 if "chat_history_actual" not in st.session_state:
     st.session_state.chat_history_actual = []
 
-with open("historia.json", "r") as datos:
-    historia_json = json.load(datos)
+historia_json = []
+
+try:
+    with open("historia.json", "r") as datos:
+        historia_json = json.load(datos)
+except FileNotFoundError:
+    print("No se encontro el archivo de historias del chat")
+except json.JSONDecodeError:
+    print("El archivo no es valido o esta corrupto")
+except  Exception as e:
+    print(f"Error al leer el archivo de historias del chat: {e.args[0]}")     
 
 st.title("Asistente Virtual")
 
 if st.session_state.esta_logueado:
-    if st.button("Guardar Chat"):
-        with open("historia.json", "w") as datos:
 
-            id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
-            nuevo_chat = "chat " + str(id)
+    try:
+        if st.button("Guardar Chat"):
+            with open("historia.json", "w") as datos:
 
-            historia_json.append(
-            {"user_id": st.session_state.id,
-            "chats": {
-                "id": id,
-                "title": "chat",
-                "historia": st.session_state.chat_history}
-                })       
+                id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
+                nuevo_chat = "chat " + str(id)
 
-            json.dump(historia_json, datos)        
+                historia_json.append(
+                {"user_id": st.session_state.id,
+                "chats": {
+                    "id": id,
+                    "title": "chat",
+                    "historia": st.session_state.chat_history}
+                    })       
+
+                json.dump(historia_json, datos)        
+                st.success("Chat guardado con exito")
+    except Exception as e:
+        print(f"Error al guardar el chat: {e.args[0]}")
 
 chats_usuario = {}
-nombres_chat = ["-- Selecciona una opción --"] 
+nombres_chat = ["Chat Actual"] 
 
 st.markdown("---")
 
@@ -66,26 +85,27 @@ if st.session_state.esta_logueado:
         st.rerun()
 
     st.sidebar.markdown("---")
+
+    try:        
+        for i, chat_historia in enumerate(historia_json):
+
+            if chat_historia["user_id"] == st.session_state.id:
+                nombre = chat_historia["chats"]["title"] + str(chat_historia["chats"]["id"])
+                nombres_chat.append(nombre)
+                chats_usuario[nombre] = chat_historia["chats"]["historia"]
+
+        chat_seleccionado = st.sidebar.selectbox("Selecciona un chat", nombres_chat, key="chat_seleccionado")
         
-    for i, chat_historia in enumerate(historia_json):
-
-        if chat_historia["user_id"] == st.session_state.id:
-            nombre = chat_historia["chats"]["title"] + str(chat_historia["chats"]["id"])
-            nombres_chat.append(nombre)
-            chats_usuario[nombre] = chat_historia["chats"]["historia"]
-
-    chat_seleccionado = st.sidebar.selectbox("Selecciona un chat", nombres_chat, key="chat_seleccionado")
-
+        if chat_seleccionado != "Chat Actual":
+            st.session_state.chat_history = chats_usuario[chat_seleccionado]
+            st.session_state.pantalla = "chat"
+        else:
+            st.session_state.chat_history = st.session_state.chat_history_actual
+    except KeyError:
+        print("Una o mas claves son invalidas")
+    except Exception as e:
+        print(f"Error en el selectbox: {e.args[0]}")
     
-
-    print(chat_seleccionado)
-    if chat_seleccionado != "-- Selecciona una opción --":
-        st.session_state.chat_history = chats_usuario[chat_seleccionado]
-        print(st.session_state.chat_history)
-        print(chats_usuario[chat_seleccionado])
-        st.session_state.pantalla = "chat"
-    else:
-        st.session_state.chat_history = st.session_state.chat_history_actual
 
 else:
 
@@ -98,8 +118,6 @@ else:
         st.session_state.pantalla = "registro"
 
     st.sidebar.markdown("---")
-    #if chat_seleccionado != "-- Selecciona una opción --":
-    #    st.session_state.chat_history = chats_usuario
 
 mensaje_error = []
 

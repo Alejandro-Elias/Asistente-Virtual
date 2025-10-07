@@ -16,5 +16,11 @@
     "nombre": "juan",
     "email": "juan@gmail.com",
     "contrasenia": "232323"
+  },
+  {
+    "id": 4,
+    "nombre": "Cacho",
+    "email": "cacho@gmail.com",
+    "contrasenia": "cachito"
   }
 ]

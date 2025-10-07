@@ -47,5 +47,3 @@ def chat():
         with col2:
             with st.chat_message("assistant"):
                 st.write(chat["respuesta"])
-
-    print(st.session_state.chat_history)
