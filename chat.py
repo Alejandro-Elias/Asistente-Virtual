@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+from comunicacionIA import comunicacion
 
 
 def chat():
@@ -30,9 +31,9 @@ def chat():
             st.write(f"Hola {nombre}, soy tu asistente virtual. En que puedo ayudarte?")
 
     consulta = st.chat_input("Ingresa tu pregunta")
-    respuesta = "Estoy procesando tu pregunta..."
 
     if consulta:
+        respuesta = comunicacion(consulta)
 
         st.session_state.chat_history_actual.append({
             "consulta" : consulta,
