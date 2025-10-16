@@ -8,6 +8,16 @@ def chat():
     usuarios_json = []
 
     try:
+        with open("historia.json", "r") as datos:
+            historia_json = json.load(datos)
+    except FileNotFoundError:
+        print("No se encontro el archivo de historias del chat")
+    except json.JSONDecodeError:
+        print("El archivo no es valido o esta corrupto")
+    except  Exception as e:
+        print(f"Error al leer el archivo de historias del chat: {e.args[0]}")   
+
+    try:
         with open("usuarios.json", "r") as datos:
             usuarios_json = json.load(datos)
     except FileNotFoundError:
@@ -39,6 +49,25 @@ def chat():
             "consulta" : consulta,
             "respuesta" : respuesta
         })
+
+        try:
+            with open("historia.json", "w") as datos:
+
+                id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
+                nuevo_chat = "chat " + str(id)
+
+                historia_json.append(
+                {"user_id": st.session_state.id,
+                "chats": {
+                    "id": id,
+                    "title": "chat",
+                    "historia": st.session_state.chat_history}
+                    })       
+
+                json.dump(historia_json, datos)        
+                st.rerun()
+        except Exception as e:
+            print(f"Error al guardar el chat: {e.args[0]}")
 
     for chat in st.session_state.chat_history:
             

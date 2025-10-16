@@ -4,6 +4,8 @@ from chat import chat
 
 def ingresar():
 
+
+
     usuarios_json = []
 
     try:
@@ -24,11 +26,11 @@ def ingresar():
 
     if st.session_state.pantalla == "chat":
         chat()
-    else:     
-        st.subheader("Ingresar")
+    else:             
+        col1, col2, col3 = st.columns(3)
         
-        col1, col2, col3, col4 = st.columns([4, 2, 3, 3])
-        with col1:
+        with col2:
+            st.subheader("Ingresar")
             with st.form("login_form"):
                 email = st.text_input("Ingrese su email", key="email_ingreso")
                 contrasenia = st.text_input("Ingrese su contraseña", type="password", key="contrasenia")

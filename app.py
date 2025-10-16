@@ -27,6 +27,7 @@ if "chat_history_actual" not in st.session_state:
     st.session_state.chat_history_actual = []
 
 historia_json = []
+nuevo = False
 
 try:
     with open("historia.json", "r") as datos:
@@ -38,29 +39,10 @@ except json.JSONDecodeError:
 except  Exception as e:
     print(f"Error al leer el archivo de historias del chat: {e.args[0]}")     
 
-st.title("Asistente Virtual")
+col1, col2 = st.columns([11, 1])
 
-if st.session_state.esta_logueado:
-
-    try:
-        if st.button("Guardar Chat"):
-            with open("historia.json", "w") as datos:
-
-                id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
-                nuevo_chat = "chat " + str(id)
-
-                historia_json.append(
-                {"user_id": st.session_state.id,
-                "chats": {
-                    "id": id,
-                    "title": "chat",
-                    "historia": st.session_state.chat_history}
-                    })       
-
-                json.dump(historia_json, datos)        
-                st.success("Chat guardado con exito")
-    except Exception as e:
-        print(f"Error al guardar el chat: {e.args[0]}")
+with col1:
+    st.title("🗿 Asistente Virtual")
 
 chats_usuario = {}
 nombres_chat = ["Chat Actual"] 
@@ -70,8 +52,10 @@ st.markdown("---")
 if st.session_state.esta_logueado:
         
     if st.sidebar.button("Nuevo Chat"):
-        st.session_state.chat_history = []
+        st.session_state.chat_history_actual = []
         st.session_state.pantalla = "chat"
+        st.rerun()
+        nuevo = True
 
     if st.sidebar.button("Salir"):
         st.session_state.clear()
@@ -100,7 +84,11 @@ if st.session_state.esta_logueado:
             st.session_state.chat_history = chats_usuario[chat_seleccionado]
             st.session_state.pantalla = "chat"
         else:
-            st.session_state.chat_history = st.session_state.chat_history_actual
+            if nuevo:
+                st.session_state.chat_history_actual = []
+                st.rerun()
+            else :
+                st.session_state.chat_history = st.session_state.chat_history_actual
     except KeyError:
         print("Una o mas claves son invalidas")
     except Exception as e:

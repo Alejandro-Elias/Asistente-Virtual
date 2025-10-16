@@ -31,10 +31,10 @@ def registrate():
         "contrasenia": ""
     }
 
-    st.subheader("Registrate")
-
     col1, col2, col3 = st.columns(3)
-    with col1:
+    with col2:
+
+        st.subheader("Registrate")
         with st.form("registro_form"):
             usuario["nombre"] = st.text_input("Ingrese su nombre", key="nombre")
             usuario["email"] = st.text_input("Ingrese su Email", key="Email")
