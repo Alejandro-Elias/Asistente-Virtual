@@ -64,7 +64,7 @@ def chat():
                     "historia": st.session_state.chat_history}
                     })       
 
-                json.dump(historia_json, datos)        
+                json.dump(historia_json, datos, indent=4)        
                 st.rerun()
         except Exception as e:
             print(f"Error al guardar el chat: {e.args[0]}")
