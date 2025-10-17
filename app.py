@@ -3,10 +3,13 @@ from ingresar import ingresar
 from registrate import registrate
 from chat import chat
 import json
+from PIL import Image
+
+imagen = Image.open("sonreir.png")
 
 st.set_page_config(
     page_title="Asistente Virtual",  
-    page_icon="🤖",             
+    page_icon="sonreir.png",             
     layout="wide",              
     initial_sidebar_state="expanded"  
 )
@@ -42,7 +45,13 @@ except  Exception as e:
 col1, col2 = st.columns([11, 1])
 
 with col1:
-    st.title("🗿 Asistente Virtual")
+    subcol1, subcol2 = st.columns([1, 16])
+
+    with subcol1:
+        st.image(imagen, width=100)
+
+    with subcol2:
+        st.title("Asistente Virtual PYTHON")
 
 chats_usuario = {}
 nombres_chat = ["Chat Actual"] 

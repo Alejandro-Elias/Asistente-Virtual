@@ -22,11 +22,5 @@
     "nombre": "Cacho",
     "email": "cacho@gmail.com",
     "contrasenia": "cachito"
-  },
-  {
-    "id": 5,
-    "nombre": "alejo",
-    "email": "ale@gmail.com",
-    "contrasenia": "123123"
   }
 ]
