@@ -29,6 +29,9 @@ if "chat_history" not in st.session_state:
 if "chat_history_actual" not in st.session_state:
     st.session_state.chat_history_actual = []
 
+if "nivel_conocimiento" not in st.session_state:
+    st.session_state.nivel_conocimiento = "basico"
+
 historia_json = []
 nuevo = False
 
@@ -45,7 +48,7 @@ except  Exception as e:
 col1, col2 = st.columns([11, 1])
 
 with col1:
-    subcol1, subcol2 = st.columns([1, 16])
+    subcol1, subcol2 = st.columns([1, 8])
 
     with subcol1:
         st.image(imagen, width=100)
@@ -102,8 +105,17 @@ if st.session_state.esta_logueado:
         print("Una o mas claves son invalidas")
     except Exception as e:
         print(f"Error en el selectbox: {e.args[0]}")
-    
 
+    st.session_state.nivel_conocimiento = st.sidebar.selectbox("Selecciona el nivel de conocimiento", ["Principiante", "Intermedio", "Avanzado"])
+
+    temperatura = st.sidebar.slider(
+    "Prcentaje de Creatividad",
+    min_value=0,
+    max_value=100,
+    value=70,
+    step=10,
+    key="temperature"
+)
 else:
 
     st.sidebar.title("Menú")
