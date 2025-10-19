@@ -10,7 +10,11 @@ def comunicacion (consulta):
     load_dotenv()
 
     temperatura = float(st.session_state.temperature) / 100
-    print(st.session_state.nivel_conocimiento)
+
+    chat_actual = st.session_state.chat_history_actual
+
+
+    contents = []
 
     prompt = f"""
         ### Sistema / Rol
@@ -70,9 +74,15 @@ def comunicacion (consulta):
         ### Nota
         Verifica la consistencia de tu explicación y que el ejemplo de código funcione correctamente antes de dárselo al alumno.
     """
-
-
+        
+    contents.append({"role": "user", "parts": [{"text": prompt}]})
     
+    for chat in chat_actual[:10]:
+        contents.append({"role": "user", "parts": [{"text": chat["consulta"]}]})
+        contents.append({"role": "model", "parts": [{"text": chat["respuesta"]}]})
+
+    contents.append({"role": "user", "parts": [{"text": consulta}]})
+
     try:
         api_key = os.getenv("GEMINI_API_KEY")
 
@@ -80,7 +90,7 @@ def comunicacion (consulta):
 
         response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=[{"role": "user", "parts": [{"text": prompt}]}],
+        contents=contents,
         config=types.GenerateContentConfig(
             temperature = temperatura,
             top_p=0.8,

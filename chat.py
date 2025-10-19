@@ -38,7 +38,7 @@ def chat():
     col1, col2, col3 = st.columns([5, 90, 5])
     with col2:
         with st.chat_message("assistant"):
-            st.write(f"Hola {nombre}, soy tu asistente virtual. En que puedo ayudarte?")
+            st.write(f"Hola {nombre}, soy tu profesor de python. que te gustaria aprender hoy?")
 
     consulta = st.chat_input("Ingresa tu pregunta")
 
