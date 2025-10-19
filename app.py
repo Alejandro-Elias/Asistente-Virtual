@@ -26,6 +26,9 @@ if "esta_logueado" not in st.session_state:
 if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
+if "primer_render" not in st.session_state:
+    st.session_state.primer_render = True
+
 if "chat_history_actual" not in st.session_state:
     st.session_state.chat_history_actual = []
 
@@ -56,8 +59,12 @@ with col1:
     with subcol2:
         st.title("Asistente Virtual PYTHON")
 
+spinner_container = st.empty
+
 chats_usuario = {}
 nombres_chat = ["Chat Actual"] 
+
+st.sidebar.title("Menú")
 
 st.markdown("---")
 
@@ -109,7 +116,7 @@ if st.session_state.esta_logueado:
     st.session_state.nivel_conocimiento = st.sidebar.selectbox("Selecciona el nivel de conocimiento", ["Principiante", "Intermedio", "Avanzado"])
 
     temperatura = st.sidebar.slider(
-    "Prcentaje de Creatividad",
+    "Porcentaje de Creatividad",
     min_value=0,
     max_value=100,
     value=70,
@@ -117,8 +124,6 @@ if st.session_state.esta_logueado:
     key="temperature"
 )
 else:
-
-    st.sidebar.title("Menú")
 
     if st.sidebar.button("Ingresar"):
         st.session_state.pantalla = "ingreso"

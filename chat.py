@@ -43,31 +43,40 @@ def chat():
     consulta = st.chat_input("Ingresa tu pregunta")
 
     if consulta:
-        respuesta = comunicacion(consulta)
+        with st.spinner("🤖 Generando respuesta..."):
+            respuesta = comunicacion(consulta)
 
-        st.session_state.chat_history_actual.append({
-            "consulta" : consulta,
-            "respuesta" : respuesta
-        })
+            st.session_state.chat_history_actual.append({
+                "consulta" : consulta,
+                "respuesta" : respuesta
+            })
 
-        try:
-            with open("historia.json", "w") as datos:
+            try:
+                with open("historia.json", "w") as datos:
+                    id = 1
 
-                id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
-                nuevo_chat = "chat " + str(id)
+                    if st.session_state.primer_render:
+                        id = historia_json[-1]["chats"]["id"] + 1 if len(historia_json) > 0 else 1
+                        nuevo_chat = "chat " + str(id)
 
-                historia_json.append(
-                {"user_id": st.session_state.id,
-                "chats": {
-                    "id": id,
-                    "title": "chat",
-                    "historia": st.session_state.chat_history}
-                    })       
+                        historia_json.append(
+                        {"user_id": st.session_state.id,
+                        "chats": {
+                            "id": id,
+                            "title": "chat",
+                            "historia": st.session_state.chat_history}
+                            })
+                    else:
+                        historia_json[-1]["chats"]["id"] = id
+                        historia_json[-1]["chats"]["title"] = "chat"
+                        historia_json[-1]["chats"]["historia"] = st.session_state.chat_history
 
-                json.dump(historia_json, datos, indent=4)        
-                st.rerun()
-        except Exception as e:
-            print(f"Error al guardar el chat: {e.args[0]}")
+                    st.session_state.primer_render = False
+
+                    json.dump(historia_json, datos, indent=4)        
+                    st.rerun()
+            except Exception as e:
+                print(f"Error al guardar el chat: {e.args[0]}")
 
     for chat in st.session_state.chat_history:
             
